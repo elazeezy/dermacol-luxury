@@ -217,73 +217,81 @@ const handleCopy = () => {
 
 
       
-          {/* 3. AD PORTAL SECTION - UPDATED WITH BOOKING & DROPDOWN */}
-<div id="ads" className="bg-[#1A1A1A] p-8 rounded-[3rem] text-white shadow-2xl animate-fade-in">
-  <div className="flex items-center gap-3 mb-2">
-    <Megaphone className="text-[#FF85A1]" size={20} />
-    <h5 className="font-black italic text-[#FF85A1] uppercase">Ad Portal</h5>
-  </div>
-  <p className="text-[9px] text-gray-400 mb-6 leading-tight italic">
-    "Babygirl Dermacol connects you with more WhatsApp audience giving more visibility to your brand."
-  </p>
+         {/* 3. AD PORTAL SECTION - ANIMATED WITH INSTRUCTIONS */}
+<section className={`transition-all duration-1000 delay-[1200ms] transform ${
+  isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'
+}`}>
+  <div id="ads" className="bg-[#1A1A1A] p-8 rounded-[3rem] text-white shadow-2xl">
+    <div className="flex items-center gap-3 mb-2">
+      <Megaphone className="text-[#FF85A1]" size={20} />
+      <h5 className="font-black italic text-[#FF85A1] uppercase">Ad Portal</h5>
+    </div>
+    <p className="text-[9px] text-gray-400 mb-6 leading-tight italic">
+      "Babygirl Dermacol connects you with more WhatsApp audience giving more visibility to your brand."
+    </p>
 
-  <div className="space-y-4">
-    {ads[0].items.map((ad, i) => {
-      // Using a local state inside the map to track which dropdown is open
-      const [isOpen, setIsOpen] = useState(false);
-      const [copied, setCopied] = useState(false);
+    <div className="space-y-4">
+      {ads[0].items.map((ad, i) => {
+        const [isOpen, setIsOpen] = useState(false);
+        const [copied, setCopied] = useState(false);
 
-      const handleCopy = () => {
-        navigator.clipboard.writeText("0700090469"); // Replace with your actual number
-        setCopied(true);
-        setTimeout(() => setCopied(false), 2000);
-      };
+        const handleCopy = () => {
+          navigator.clipboard.writeText("0700090469");
+          setCopied(true);
+          setTimeout(() => setCopied(false), 2000);
+        };
 
-      return (
-        <div key={i} className="border-b border-white/10 pb-4">
-          <div className="flex justify-between items-center mb-2">
-            <div>
-              <span className="text-[11px] text-gray-300 block">{ad.name}</span>
-              <span className="text-sm font-bold italic text-[#FF85A1]">₦{ad.price}</span>
-            </div>
-            <button 
-              onClick={() => setIsOpen(!isOpen)}
-              className="px-4 py-2 bg-white/10 hover:bg-[#FF85A1] rounded-xl text-[10px] font-black uppercase transition-all flex items-center gap-2"
-            >
-              {isOpen ? 'Close' : 'Book Now'} <ChevronDown size={12} className={`transition-transform ${isOpen ? 'rotate-180' : ''}`} />
-            </button>
-          </div>
-
-          {/* SURPRISE DROPDOWN */}
-          {isOpen && (
-            <div className="mt-4 p-5 bg-white/5 rounded-2xl border border-white/10 animate-fade-up">
-              <p className="text-[10px] text-gray-400 uppercase font-black mb-3">Payment Details</p>
-              <div className="flex justify-between items-center bg-black/40 p-3 rounded-xl mb-4">
-                <div className="text-[11px]">
-                  <p className="text-[#FF85A1] font-bold">GTBANK</p>
-                  <p className="font-mono">0700090469</p>
-                  <p className="text-[9px] text-gray-500 uppercase">BABYGIRL DERMACOL</p>
-                </div>
-                <button onClick={handleCopy} className="p-2 hover:text-[#FF85A1]">
-                  {copied ? <Check size={16} /> : <Copy size={16} />}
-                </button>
+        return (
+          <div key={i} className="border-b border-white/10 pb-4">
+            <div className="flex justify-between items-center mb-2">
+              <div>
+                <span className="text-[11px] text-gray-300 block">{ad.name}</span>
+                <span className="text-sm font-bold italic text-[#FF85A1]">₦{ad.price}</span>
               </div>
-              
-              <a 
-                href={`https://wa.me/2348158942290?text=Hi%20Dermacol,%20I%20just%20booked%20the%20${ad.name}%20ad%20space.%20Confirm%20my%20payment%20and%20here%20is%20my%20content.`}
-                className="w-full py-3 bg-[#FF85A1] rounded-xl text-[10px] font-black uppercase flex items-center justify-center gap-2"
+              <button 
+                onClick={() => setIsOpen(!isOpen)}
+                className="px-4 py-2 bg-white/10 hover:bg-[#FF85A1] rounded-xl text-[10px] font-black uppercase transition-all flex items-center gap-2"
               >
-                Confirm Payment on WhatsApp <MessageCircle size={14}/>
-              </a>
+                {isOpen ? 'Close' : 'Book Now'} <ChevronDown size={12} className={`transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+              </button>
             </div>
-          )}
-        </div>
-      );
-    })}
-  </div>
-</div>
-        </aside>
 
+            {/* SURPRISE DROPDOWN */}
+            {isOpen && (
+              <div className="mt-4 p-5 bg-white/5 rounded-2xl border border-white/10 animate-in fade-in slide-in-from-top-4 duration-500">
+                <p className="text-[10px] text-gray-400 uppercase font-black mb-1">Payment Details</p>
+                
+                {/* NEW INSTRUCTION TEXT */}
+                <p className="text-[9px] text-[#FF85A1] italic mb-3 opacity-80">
+                  Copy the account number, make payment, then send confirmation to WhatsApp.
+                </p>
+
+                <div className="flex justify-between items-center bg-black/40 p-3 rounded-xl mb-4">
+                  <div className="text-[11px]">
+                    <p className="text-[#FF85A1] font-bold">GTBANK</p>
+                    <p className="font-mono">0700090469</p>
+                    <p className="text-[9px] text-gray-500 uppercase">BABYGIRL DERMACOL</p>
+                  </div>
+                  <button onClick={handleCopy} className="p-2 hover:text-[#FF85A1]">
+                    {copied ? <Check size={16} /> : <Copy size={16} />}
+                  </button>
+                </div>
+                
+                <a 
+                  href={`https://wa.me/2348158942290?text=Hi%20Dermacol,%20I%20just%20booked%20the%20${ad.name}%20ad%20space.%20Confirm%20my%20payment%20and%20here%20is%20my%20content.`}
+                  className="w-full py-3 bg-[#FF85A1] rounded-xl text-[10px] font-black uppercase flex items-center justify-center gap-2 active:scale-95 transition-transform"
+                >
+                  Confirm Payment on WhatsApp <MessageCircle size={14}/>
+                </a>
+              </div>
+            )}
+          </div>
+        );
+      })}
+    </div>
+  </div>
+</section> 
+     </aside>
         
 
         {/* MAIN SHOP AREA: Order-2 on mobile */}
@@ -301,20 +309,7 @@ const handleCopy = () => {
               </p>
             </div>
 
-            {/* WIGS (CART) */}
-            <h3 className="text-[10px] font-black uppercase tracking-[4px] text-gray-400 mb-6">Luxury & Affordable Hairs</h3>
-            <div className="flex overflow-x-auto gap-6 no-scrollbar pb-8 snap-x">
-              {wigStore.map(wig => (
-  <div key={wig.id} className="min-w-[280px] snap-center glass-card p-4 rounded-[2.5rem] bg-white shadow-lg hover:-translate-y-2 transition-transform duration-500">
-                  <div className="relative aspect-[4/5] overflow-hidden rounded-[2rem] mb-4">
-                    <img src={`/products/wig-${wig.id}.jpg`} className="w-full h-full object-cover" alt={wig.name} />
-                    <div className="absolute top-4 right-4 bg-white/90 px-3 py-1 rounded-full text-[10px] font-black text-[#FF85A1]">₦{wig.price.toLocaleString()}</div>
-                  </div>
-                  <h4 className="font-bold text-sm uppercase px-2 mb-4">{wig.name}</h4>
-                  <button onClick={() => addToCart(wig)} className="w-full py-4 bg-[#FF85A1] text-white rounded-2xl text-[10px] font-black uppercase">Add to Cart</button>
-                </div>
-              ))}
-            </div>
+            
 
             {/* SERVICES (WHATSAPP) */}
             <h3 className="text-[10px] font-black uppercase tracking-[4px] text-gray-400 mb-6 mt-10">Professional Services</h3>
@@ -339,6 +334,21 @@ const handleCopy = () => {
   ))}
 </div>
           </section>
+
+          {/* WIGS (CART) */}
+            <h3 className="text-[10px] font-black uppercase tracking-[4px] text-gray-400 mb-6">Luxury & Affordable Hairs</h3>
+            <div className="flex overflow-x-auto gap-6 no-scrollbar pb-8 snap-x">
+              {wigStore.map(wig => (
+  <div key={wig.id} className="min-w-[280px] snap-center glass-card p-4 rounded-[2.5rem] bg-white shadow-lg hover:-translate-y-2 transition-transform duration-500">
+                  <div className="relative aspect-[4/5] overflow-hidden rounded-[2rem] mb-4">
+                    <img src={`/products/wig-${wig.id}.jpg`} className="w-full h-full object-cover" alt={wig.name} />
+                    <div className="absolute top-4 right-4 bg-white/90 px-3 py-1 rounded-full text-[10px] font-black text-[#FF85A1]">₦{wig.price.toLocaleString()}</div>
+                  </div>
+                  <h4 className="font-bold text-sm uppercase px-2 mb-4">{wig.name}</h4>
+                  <button onClick={() => addToCart(wig)} className="w-full py-4 bg-[#FF85A1] text-white rounded-2xl text-[10px] font-black uppercase">Add to Cart</button>
+                </div>
+              ))}
+            </div>
 
        {/* KITCHEN SECTION */}
 <section id="food" className="mt-12 px-2">
