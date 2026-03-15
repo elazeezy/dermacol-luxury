@@ -1,0 +1,20 @@
+export const wigs = [
+  { id: 1, name: "Sdd Vietnam Bonestraight", inches: "26 inches", type: "300gm", oldPrice: "480k", newPrice: 450000, media: "/products/wig1.jpg", isVideo: false },
+  { id: 2, name: "Deepwave", inches: "36 inches", type: "5 by 5 frontal", oldPrice: "320k", newPrice: 295000, media: "/products/wig2.jpg", isVideo: false },
+  { id: 3, name: "Body Waves", inches: "30 inches", type: "Full frontal", oldPrice: "185k", newPrice: 170000, media: "/products/wig3.jpg", isVideo: false },
+  { id: 4, name: "Pixie", inches: "20 inches", type: "5 by 5 (natural)", oldPrice: "195k", newPrice: 180000, media: "/products/wig4.jpg", isVideo: false },
+  { id: 5, name: "Bounce", inches: "18 inches", type: "Natural color 5 by 5", oldPrice: "180k", newPrice: 165000, media: "/products/wig5.mp4", isVideo: true },
+  { id: 6, name: "Piano Bonestraight", inches: "26 inches", type: "2 by 6 closure", oldPrice: "580k", newPrice: 550000, media: "/products/wig6.jpg", isVideo: false },
+  { id: 7, name: "Full Frontal Bounce", inches: "Luxury", type: "Human hair", oldPrice: "65k", newPrice: 55000, media: "/products/wig7.jpg", isVideo: false },
+  { id: 8, name: "Odogwu Luxury Bounce", inches: "Full Frontal", type: "Natural blend", oldPrice: "60k", newPrice: 55000, media: "/products/wig8.mp4", isVideo: true },
+  { id: 9, name: "Odogwu Luxury Bounce", inches: "Full Frontal", type: "Chesnut blend", oldPrice: "60k", newPrice: 55000, media: "/products/wig9.mp4", isVideo: true },
+  { id: 10, name: "Full Frontal Bounce", inches: "Luxury", type: "Human hair blend", oldPrice: "60k", newPrice: 50000, media: "/products/wig10.mp4", isVideo: true },
+  { id: 11, name: "Luxury Deepwave", inches: "40 inches", type: "Full frontal", oldPrice: "620k", newPrice: 595000, media: "/products/wig11.mp4", isVideo: true },
+  { id: 12, name: "Deepwave", inches: "16 inches", type: "Full frontal", oldPrice: "75k", newPrice: 65000, media: "/products/wig12.mp4", isVideo: true },
+  { id: 13, name: "Pixie", inches: "24 inches", type: "5 by 5", oldPrice: "270k", newPrice: 245000, media: "/products/wig13.mp4", isVideo: true },
+  { id: 14, name: "Full Frontal Blonde", inches: "Luxury", type: "Human hair blend", oldPrice: "60k", newPrice: 50000, media: "/products/wig14.mp4", isVideo: true },
+  { id: 15, name: "Silky Straight Blonde", inches: "Full Frontal", type: "Human hair", oldPrice: "60k", newPrice: 50000, media: "/products/wig15.mp4", isVideo: true },
+  { id: 16, name: "Silky Straight Blonde", inches: "Full Frontal", type: "Human hair", oldPrice: "60k", newPrice: 50000, media: "/products/wig16.mp4", isVideo: true },
+  { id: 17, name: "Vietnam Bonestraight", inches: "10 inches", type: "2 by 4 closure", oldPrice: "140k", newPrice: 125000, media: "/products/wig17.mp4", isVideo: true },
+  { id: 19, name: "Vietnam Bonestraight", inches: "10 inches", type: "2 by 4 closure", oldPrice: "150k", newPrice: 135000, media: "/products/wig19.mp4", isVideo: true }
+];

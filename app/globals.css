@@ -31,3 +31,16 @@ body {
 .animate-float-delayed {
   animation: float 3s ease-in-out 1.5s infinite;
 }
+
+@media print {
+  body * { visibility: hidden; }
+  #printable-receipt, #printable-receipt * {
+    visibility: visible;
+  }
+  #printable-receipt {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+  }
+}
