@@ -136,9 +136,9 @@ export default function LandingPage() {
         
         {/* Added clickable Social Links */}
         <div className="flex gap-4 pt-2">
-          <a href="https://instagram.com/yourhandle" target="_blank"><Instagram size={16} className="text-gray-400 hover:text-[#FF85A1]" /></a>
-          <a href="https://tiktok.com/@yourhandle" target="_blank"><Music size={16} className="text-gray-400 hover:text-[#FF85A1]" /></a>
-          <a href="mailto:info@dermacol.com"><Mail size={16} className="text-gray-400 hover:text-[#FF85A1]" /></a>
+          <a href="https://www.instagram.com/babygirl_dermacol?igsh=MWh2czhtcTZrZDJ4bg==" target="_blank"><Instagram size={16} className="text-gray-400 hover:text-[#FF85A1]" /></a>
+          <a href="https://www.tiktok.com/@babygirldermacol?_r=1&_t=ZS-94jFGxIIFwP" target="_blank"><Music size={16} className="text-gray-400 hover:text-[#FF85A1]" /></a>
+          <a href="mailto:dermacolconcepts@gmail.com"><Mail size={16} className="text-gray-400 hover:text-[#FF85A1]" /></a>
         </div>
       </div>
     </div>

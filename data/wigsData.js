@@ -4,7 +4,7 @@ export const wigs = [
   { id: 3, name: "Body Waves", inches: "30 inches", type: "Full frontal", oldPrice: "185k", newPrice: 170000, media: "/products/wig3.jpg", isVideo: false },
   { id: 4, name: "Pixie", inches: "20 inches", type: "5 by 5 (natural)", oldPrice: "195k", newPrice: 180000, media: "/products/wig4.jpg", isVideo: false },
   { id: 5, name: "Bounce", inches: "18 inches", type: "Natural color 5 by 5", oldPrice: "180k", newPrice: 165000, media: "/products/wig5.mp4", isVideo: true },
-  { id: 6, name: "Piano Bonestraight", inches: "26 inches", type: "2 by 6 closure", oldPrice: "580k", newPrice: 550000, media: "/products/wig6.jpg", isVideo: false },
+  { id: 6, name: "Piano Bonestraight", inches: "26 inches", type: "300gm", oldPrice: "580k", newPrice: 550000, media: "/products/wig6.jpg", isVideo: false },
   { id: 7, name: "Full Frontal Bounce", inches: "Luxury", type: "Human hair", oldPrice: "65k", newPrice: 55000, media: "/products/wig7.jpg", isVideo: false },
   { id: 8, name: "Odogwu Luxury Bounce", inches: "Full Frontal", type: "Natural blend", oldPrice: "60k", newPrice: 55000, media: "/products/wig8.mp4", isVideo: true },
   { id: 9, name: "Odogwu Luxury Bounce", inches: "Full Frontal", type: "Chesnut blend", oldPrice: "60k", newPrice: 55000, media: "/products/wig9.mp4", isVideo: true },

@@ -106,23 +106,45 @@ export default function CartDrawer({ isOpen, onClose }: { isOpen: boolean; onClo
                     <span className="text-3xl font-black italic text-[#1A1A1A]">₦{total.toLocaleString()}</span>
                   </div>
 
-                  {/* Payment Details Box */}
-                  <div className="bg-gray-50 rounded-[2rem] p-6 border border-gray-100 mb-8">
-                    <h4 className="text-[10px] font-black uppercase text-gray-400 mb-4 tracking-widest text-center">Transfer Details</h4>
-                    <div className="bg-white p-5 rounded-2xl border border-dashed border-gray-300 flex justify-between items-center relative overflow-hidden">
-                      <div className="relative z-10">
-                        <p className="text-[10px] font-black text-[#FF85A1] uppercase mb-1 tracking-tighter">GTBANK</p>
-                        <p className="text-xl font-mono font-bold text-[#1A1A1A] tracking-tighter">0700090469</p>
-                        <p className="text-[9px] text-gray-400 font-bold uppercase mt-1">Babygirl Dermacol</p>
-                      </div>
-                      <button 
-                        onClick={handleCopy} 
-                        className="relative z-10 p-4 bg-gray-50 rounded-xl hover:bg-[#FF85A1] hover:text-white transition-all active:scale-90"
-                      >
-                        {copied ? <Check size={20} className="text-green-500" /> : <Copy size={20} />}
-                      </button>
-                    </div>
-                  </div>
+                 {/* Payment Details Box */}
+<div className="bg-gray-50 rounded-[2rem] p-6 border border-gray-100 mb-8">
+  {/* 1. PAYMENT GUIDE - PUSHED TO TOP OF BOX */}
+  <div className="mb-6 text-center">
+    <h4 className="text-[10px] font-black uppercase text-[#FF85A1] mb-2 tracking-widest">
+      How to Pay
+    </h4>
+    <ul className="text-[9px] font-bold text-gray-500 uppercase space-y-1 italic">
+      <li>1. Copy the account number below</li>
+      <li>2. Transfer the total amount (₦{(total || 0).toLocaleString()})</li>
+      <li>3. Send your receipt to us on WhatsApp</li>
+    </ul>
+  </div>
+
+  {/* 2. ENHANCED COPYABLE BOX */}
+  <div 
+    onClick={handleCopy}
+    className="bg-white p-5 rounded-2xl border border-dashed border-gray-300 flex justify-between items-center relative overflow-hidden cursor-pointer hover:border-[#FF85A1] transition-colors group active:scale-[0.98]"
+  >
+    <div className="relative z-10">
+      <p className="text-[10px] font-black text-[#FF85A1] uppercase mb-1 tracking-tighter">Moniepoint</p>
+      <p className="text-xl font-mono font-bold text-[#1A1A1A] tracking-tighter">5911834921</p>
+      <p className="text-[9px] text-gray-400 font-bold uppercase mt-1">Dermacol beauty concepts</p>
+    </div>
+    
+    <div className="relative z-10 flex flex-col items-center gap-1">
+      {copied ? (
+        <div className="flex flex-col items-center animate-in zoom-in duration-300">
+          <Check size={20} className="text-green-500" />
+          <span className="text-[8px] font-black text-green-500 uppercase">Copied</span>
+        </div>
+      ) : (
+        <div className="p-3 bg-gray-50 rounded-xl group-hover:bg-[#FF85A1] group-hover:text-white transition-all">
+          <Copy size={20} />
+        </div>
+      )}
+    </div>
+  </div>
+</div>
 
                   {/* Call to Action */}
                   <a 
