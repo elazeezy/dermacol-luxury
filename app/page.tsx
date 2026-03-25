@@ -13,7 +13,7 @@ export default function LandingPage() {
 
   const brands = [
     { name: "Beauty Concept", desc: "9 years of natural beauty.", link: "/beauty", color: "bg-[#FF85A1]", icon: <Sparkles size={20}/>, img: "/hero-beauty.jpg" },
-    { name: "Ad Portal", desc: "Connect with more audience.", link: "/ads", color: "bg-[#1A1A1A]", icon: <Megaphone size={20}/>, img: "/hero-ads.jpg" },
+    { name: "Ads Portal", desc: "Connect with more audience.", link: "/ads", color: "bg-[#1A1A1A]", icon: <Megaphone size={20}/>, img: "/hero-ads.jpg" },
     { name: "Dbolicious", desc: "Homemade food varieties.", link: "/kitchen", color: "bg-orange-500", icon: <Utensils size={20}/>, img: "/hero-food.jpg" }
   ];
 

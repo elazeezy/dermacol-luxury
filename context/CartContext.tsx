@@ -5,7 +5,8 @@ import React, { createContext, useContext, useState } from 'react';
 interface CartItem {
   id: string;
   name: string;
-  price: number; // Ensure price is a number
+  price: number;
+  category: 'beauty' | 'kitchen'; // Add this to track the shop
 }
 
 interface CartContextType {

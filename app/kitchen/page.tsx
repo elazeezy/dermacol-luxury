@@ -70,10 +70,13 @@ export default function KitchenPage() {
               <h4 className="font-black text-[11px] uppercase text-gray-800 leading-tight mb-2">{food.name}</h4>
               <div className="flex justify-between items-center mt-auto">
                 <span className="text-orange-500 font-black text-sm">₦{food.price.toLocaleString()}</span>
-                <button 
-                  onClick={() => addToCart(food)}
-                  className="p-3 bg-orange-50 text-orange-500 rounded-2xl active:scale-90 transition-all hover:bg-orange-500 hover:text-white"
-                >
+               <button 
+  onClick={() => addToCart({
+    ...food,
+    category: 'kitchen' // This is the tag!
+  })}
+  className="p-3 bg-orange-50 text-orange-500 rounded-2xl active:scale-90 transition-all hover:bg-orange-500 hover:text-white"
+>
                   <ShoppingBag size={16} />
                 </button>
               </div>

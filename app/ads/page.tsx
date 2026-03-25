@@ -86,15 +86,15 @@ export default function AdsPage() {
                 {/* 2. ENHANCED COPYABLE ACCOUNT BOX */}
                 <div 
                   onClick={() => {
-                    navigator.clipboard.writeText("5911834921");
+                    navigator.clipboard.writeText("2085491179");
                     setCopied(true);
                     setTimeout(() => setCopied(false), 2000);
                   }}
                   className="bg-[#1A1A1A] text-white p-4 rounded-2xl flex justify-between items-center mb-4 cursor-pointer active:scale-[0.98] transition-all hover:bg-black group"
                 >
                   <div className="text-[10px]">
-                    <p className="text-[#FF85A1] font-black">Moniepoint: 5911834921</p>
-                    <p className="opacity-70">Dermacol Beauty Concepts</p>
+                    <p className="text-[#FF85A1] font-black">UBA: 2085491179</p>
+                    <p className="opacity-70">Akakpo</p>
                   </div>
                   <div className="flex flex-col items-center gap-1">
                     {copied ? (

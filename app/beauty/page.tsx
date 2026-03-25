@@ -118,13 +118,14 @@ export default function BeautyPage() {
                     <span className="text-sm font-black text-[#FF85A1]">₦{wig.newPrice.toLocaleString()}</span>
                   </div>
                   <button 
-                    onClick={() => addToCart({
-                      id: `wig-${wig.id}`,
-                      name: `${wig.name} (${wig.type})`,
-                      price: wig.newPrice
-                    })}
-                    className="bg-[#1A1A1A] text-white p-2.5 rounded-xl active:scale-90 transition-transform shadow-lg shadow-black/10"
-                  >
+  onClick={() => addToCart({
+    id: `wig-${wig.id}`,
+    name: `${wig.name} (${wig.type})`,
+    price: wig.newPrice,
+    category: 'beauty' // This is the tag!
+  })}
+  className="bg-[#1A1A1A] text-white p-2.5 rounded-xl active:scale-90 transition-transform shadow-lg shadow-black/10"
+>
                     <ShoppingBag size={14} />
                   </button>
                 </div>
