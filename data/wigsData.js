@@ -8,7 +8,6 @@ export const wigs = [
   { id: 7, name: "Full Frontal Bounce", inches: "Luxury", type: "Human hair", oldPrice: "65k", newPrice: 55000, media: "/products/wig7.jpg", isVideo: false },
   { id: 8, name: "Odogwu Luxury Bounce", inches: "Full Frontal", type: "Natural blend", oldPrice: "60k", newPrice: 55000, media: "/products/wig8.mp4", isVideo: true },
   { id: 9, name: "Odogwu Luxury Bounce", inches: "Full Frontal", type: "Chesnut blend", oldPrice: "60k", newPrice: 55000, media: "/products/wig9.mp4", isVideo: true },
-  { id: 10, name: "Full Frontal Bounce", inches: "Luxury", type: "Human hair blend", oldPrice: "60k", newPrice: 50000, media: "/products/wig10.mp4", isVideo: true },
   { id: 11, name: "Luxury Deepwave", inches: "40 inches", type: "Full frontal", oldPrice: "620k", newPrice: 595000, media: "/products/wig11.mp4", isVideo: true },
   { id: 12, name: "Deepwave", inches: "16 inches", type: "Full frontal", oldPrice: "75k", newPrice: 65000, media: "/products/wig12.mp4", isVideo: true },
   { id: 13, name: "Pixie", inches: "24 inches", type: "5 by 5", oldPrice: "270k", newPrice: 245000, media: "/products/wig13.mp4", isVideo: true },
@@ -16,5 +15,19 @@ export const wigs = [
   { id: 15, name: "Silky Straight Blonde", inches: "Full Frontal", type: "Human hair", oldPrice: "60k", newPrice: 50000, media: "/products/wig15.mp4", isVideo: true },
   { id: 16, name: "Silky Straight Blonde", inches: "Full Frontal", type: "Human hair", oldPrice: "60k", newPrice: 50000, media: "/products/wig16.mp4", isVideo: true },
   { id: 17, name: "Vietnam Bonestraight", inches: "10 inches", type: "2 by 4 closure", oldPrice: "140k", newPrice: 125000, media: "/products/wig17.mp4", isVideo: true },
-  { id: 19, name: "Vietnam Bonestraight", inches: "10 inches", type: "2 by 4 closure", oldPrice: "150k", newPrice: 135000, media: "/products/wig19.mp4", isVideo: true }
+  { id: 19, name: "Vietnam Bonestraight", inches: "10 inches", type: "2 by 4 closure", oldPrice: "150k", newPrice: 135000, media: "/products/wig19.mp4", isVideo: true },
+
+{ id: 20, name: "Sdd Pixie", inches: "14 inches", type: "5 by 5 closure", oldPrice: "135k", newPrice: 120000, media: "/products/wig20.jpg", isVideo: false },
+  { id: 21, name: "Mila Bounce", inches: "Classic", type: "Human blend", oldPrice: "50k", newPrice: 45000, media: "/products/wig21.jpg", isVideo: false },
+  { id: 22, name: "Fringe Bounce", inches: "Classic", type: "Natural blend", oldPrice: "35k", newPrice: 28000, media: "/products/wig22.jpg", isVideo: false },
+  { id: 23, name: "Fringe Bounce", inches: "Short", type: "Natural blend", oldPrice: "35k", newPrice: 28000, media: "/products/wig23.jpg", isVideo: false },
+  { id: 24, name: "Frontal & Curly Ponytail", inches: "Set", type: "Human hair", oldPrice: "45k", newPrice: 40000, media: "/products/wig24.jpg", isVideo: false },
+  { id: 25, name: "Frontal & Curly Ponytail", inches: "Set", type: "Natural blend", oldPrice: "30k", newPrice: 25000, media: "/products/wig25.jpg", isVideo: false },
+  { id: 26, name: "BONESTRAIGHT BLONDE", inches: "20 INCHES", type: "2 BY 6 CLOSURE", oldPrice: "310k", newPrice: 285000, media: "/products/wig26.jpg", isVideo: false },
+  { id: 28, name: "Full Frontal  Bounce", inches: "Short", type: "Luxury blend", oldPrice: "55k", newPrice: 45000, media: "/products/wig28.jpg", isVideo: false },
+  { id: 27, name: "Full Frontal Blonde Bounce", inches: "Luxury", type: "High quality human hair blend", oldPrice: "55k", newPrice: 50000, media: "/products/wig27.jpg", isVideo: false },
+  { id: 29, name: "Full Frontal Bounce", inches: "Luxury", type: "Human hair blend", oldPrice: "55k", newPrice: 45000, media: "/products/wig29.jpg", isVideo: false },
+  { id: 30, name: "Full Frontal tiwa curls", inches: "Luxury", type: "Human hair blend", oldPrice: "40k", newPrice: 35000, media: "/products/wig30.jpg", isVideo: false },
+  { id: 31, name: "Full frontal short bounce", inches: "", type: "", oldPrice: "45k", newPrice: 38000, media: "/products/wig31.jpg", isVideo: false },
+   { id: 32, name: "Full Frontal Bounce blonde", inches: "Luxury", type: "High quality human hair blend", oldPrice: "55k", newPrice: 50000, media: "/products/wig32.jpg", isVideo: false },
 ];
