@@ -9,9 +9,9 @@ const foodMenu = [
   { id: 'f1', name: "Boli, Sauce & Turkey", price: 4500 },
   { id: 'f2', name: "Spaghetti & Turkey", price: 4500 },
   { id: 'f3', name: "Asun Spaghetti", price: 5000 },
-  { id: 'f4', name: "Chicken & Chips", price: 4000 },
+  { id: 'f4', name: "Chicken & Chips", price: 5000 },
   { id: 'f5', name: "Noodles & Egg", price: 2500 },
-  { id: 'f6', name: "Yam and Egg", price: 3000 },
+  { id: 'f6', name: "Yam and Egg", price: 3500 },
   { id: 'f7', name: "Snail Snacks", price: 6000 },
 ];
 
