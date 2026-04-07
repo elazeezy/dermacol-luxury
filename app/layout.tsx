@@ -7,6 +7,7 @@ import Navbar from "@/components/Navbar";
 import CartDrawer from "@/components/CartDrawer";
 import { CartProvider } from "@/context/CartContext";
 import { ThemeProvider } from "@/components/ThemeProvider";
+import { Analytics } from "@vercel/analytics/react";
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
@@ -32,6 +33,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <CartDrawer isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
             <Navbar onCartClick={() => setIsCartOpen(true)} />
           </CartProvider>
+          <Analytics />
         </ThemeProvider>
       </body>
     </html>
