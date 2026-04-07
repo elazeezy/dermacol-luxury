@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase';
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip,
-  ResponsiveContainer, Cell,
+  ResponsiveContainer,
 } from 'recharts';
 import { TrendingUp, ShoppingBag, Loader2, Calendar, Award } from 'lucide-react';
 
@@ -167,7 +167,6 @@ export default function AdminRevenuePage() {
     yearly: buildYearly(),
   }[period];
 
-  const maxRevenue = Math.max(...chartData.map(d => d.revenue), 1);
 
   // ── summary stats ─────────────────────────────────────────────────────
 
@@ -207,13 +206,13 @@ export default function AdminRevenuePage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-full py-40">
-        <Loader2 size={32} className="animate-spin text-[#FF85A1]" />
+        <Loader2 size={32} className="animate-spin text-dermacol-pink" />
       </div>
     );
   }
 
   return (
-    <div className="p-8 max-w-6xl mx-auto">
+    <div className="p-4 md:p-8 max-w-6xl mx-auto pb-24 md:pb-8">
 
       {/* Header */}
       <div className="mb-8">
@@ -222,10 +221,10 @@ export default function AdminRevenuePage() {
       </div>
 
       {/* Summary Cards */}
-      <div className="grid grid-cols-2 gap-4 mb-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
         <div className="bg-[#1a1a1a] rounded-2xl p-5 border border-white/5">
           <div className="flex items-center gap-2 mb-3">
-            <Calendar size={14} className="text-[#FF85A1]" />
+            <Calendar size={14} className="text-dermacol-pink" />
             <span className="text-gray-500 text-[10px] font-black uppercase tracking-wider">Today</span>
           </div>
           <p className="text-3xl font-black text-white">₦{todayTotal.toLocaleString()}</p>
@@ -257,10 +256,10 @@ export default function AdminRevenuePage() {
       </div>
 
       {/* All-time banner */}
-      <div className="bg-[#FF85A1]/10 border border-[#FF85A1]/20 rounded-2xl p-5 mb-8 flex items-center justify-between">
+      <div className="bg-dermacol-pink/10 border border-dermacol-pink/20 rounded-2xl p-5 mb-8 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <div className="p-2 bg-[#FF85A1]/20 rounded-xl">
-            <Award size={20} className="text-[#FF85A1]" />
+          <div className="p-2 bg-dermacol-pink/20 rounded-xl">
+            <Award size={20} className="text-dermacol-pink" />
           </div>
           <div>
             <p className="text-gray-400 text-[10px] font-black uppercase tracking-wider">All-Time Revenue</p>
@@ -270,7 +269,7 @@ export default function AdminRevenuePage() {
         <div className="text-right">
           <p className="text-gray-600 text-[10px] font-black uppercase tracking-wider">Total Orders</p>
           <p className="text-white font-black text-2xl mt-0.5 flex items-center gap-2">
-            <ShoppingBag size={18} className="text-[#FF85A1]" />
+            <ShoppingBag size={18} className="text-dermacol-pink" />
             {allTimeOrders}
           </p>
         </div>
@@ -291,7 +290,7 @@ export default function AdminRevenuePage() {
                 onClick={() => setPeriod(p)}
                 className={`px-3 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-wider transition-all ${
                   period === p
-                    ? 'bg-[#FF85A1] text-white'
+                    ? 'bg-dermacol-pink text-white'
                     : 'bg-white/5 text-gray-500 hover:text-white'
                 }`}
               >
@@ -319,14 +318,11 @@ export default function AdminRevenuePage() {
               width={55}
             />
             <Tooltip content={<CustomTooltip />} cursor={{ fill: 'rgba(255,255,255,0.03)' }} />
-            <Bar dataKey="revenue" radius={[6, 6, 0, 0]}>
-              {chartData.map((entry, index) => (
-                <Cell
-                  key={index}
-                  fill={entry.revenue === maxRevenue && entry.revenue > 0 ? '#FF85A1' : '#2a2a2a'}
-                />
-              ))}
-            </Bar>
+            <Bar
+              dataKey="revenue"
+              radius={[6, 6, 0, 0]}
+              fill="#2a2a2a"
+            />
           </BarChart>
         </ResponsiveContainer>
 

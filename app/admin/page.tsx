@@ -87,7 +87,7 @@ export default function AdminOrdersPage() {
   };
 
   return (
-    <div className="p-8 max-w-6xl mx-auto">
+    <div className="p-4 md:p-8 max-w-6xl mx-auto pb-24 md:pb-8">
 
       {/* Header */}
       <div className="flex items-center justify-between mb-8">
@@ -105,7 +105,7 @@ export default function AdminOrdersPage() {
       </div>
 
       {/* Summary Cards */}
-      <div className="grid grid-cols-3 gap-4 mb-8">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
         <div className="bg-[#1a1a1a] rounded-2xl p-5 border border-white/5">
           <div className="flex items-center gap-3 mb-3">
             <div className="p-2 bg-yellow-400/10 rounded-lg">
@@ -130,8 +130,8 @@ export default function AdminOrdersPage() {
 
         <div className="bg-[#1a1a1a] rounded-2xl p-5 border border-white/5">
           <div className="flex items-center gap-3 mb-3">
-            <div className="p-2 bg-[#FF85A1]/10 rounded-lg">
-              <TrendingUp size={16} className="text-[#FF85A1]" />
+            <div className="p-2 bg-dermacol-pink/10 rounded-lg">
+              <TrendingUp size={16} className="text-dermacol-pink" />
             </div>
             <span className="text-gray-500 text-xs font-bold uppercase tracking-wider">Today's Revenue</span>
           </div>
@@ -141,14 +141,14 @@ export default function AdminOrdersPage() {
       </div>
 
       {/* Filter Tabs */}
-      <div className="flex gap-2 mb-6">
+      <div className="flex flex-wrap gap-2 mb-6">
         {(['all', 'pending', 'confirmed', 'cancelled'] as Filter[]).map(f => (
           <button
             key={f}
             onClick={() => setFilter(f)}
             className={`px-4 py-2 rounded-xl text-xs font-black uppercase tracking-wider transition-all ${
               filter === f
-                ? 'bg-[#FF85A1] text-white'
+                ? 'bg-dermacol-pink text-white'
                 : 'bg-white/5 text-gray-500 hover:text-white hover:bg-white/10'
             }`}
           >
@@ -160,7 +160,7 @@ export default function AdminOrdersPage() {
       {/* Orders List */}
       {loading ? (
         <div className="flex items-center justify-center py-20">
-          <Loader2 size={32} className="animate-spin text-[#FF85A1]" />
+          <Loader2 size={32} className="animate-spin text-dermacol-pink" />
         </div>
       ) : filtered.length === 0 ? (
         <div className="text-center py-20">
@@ -180,7 +180,7 @@ export default function AdminOrdersPage() {
                   : 'border-white/5'
               }`}
             >
-              <div className="flex items-start justify-between gap-4">
+              <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
 
                 {/* Left: Order Info */}
                 <div className="flex-1 min-w-0">
@@ -202,7 +202,7 @@ export default function AdminOrdersPage() {
                         href={`https://wa.me/${order.customer_whatsapp}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center gap-1 text-[#FF85A1] text-xs font-bold hover:underline mt-0.5"
+                        className="flex items-center gap-1 text-dermacol-pink text-xs font-bold hover:underline mt-0.5"
                       >
                         <MessageCircle size={11} />
                         {order.customer_whatsapp}
@@ -223,7 +223,7 @@ export default function AdminOrdersPage() {
                 </div>
 
                 {/* Right: Total + Actions */}
-                <div className="flex flex-col items-end gap-3 shrink-0">
+                <div className="flex flex-row sm:flex-col items-center sm:items-end justify-between sm:justify-start gap-3 shrink-0">
                   <p className="text-white font-black text-xl">₦{order.total_amount.toLocaleString()}</p>
 
                   {order.status === 'pending' && (

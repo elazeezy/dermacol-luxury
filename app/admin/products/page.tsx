@@ -132,7 +132,7 @@ export default function AdminProductsPage() {
   };
 
   return (
-    <div className="p-8 max-w-6xl mx-auto">
+    <div className="p-4 md:p-8 max-w-6xl mx-auto pb-24 md:pb-8">
 
       {/* Header */}
       <div className="flex items-center justify-between mb-8">
@@ -142,7 +142,7 @@ export default function AdminProductsPage() {
         </div>
         <button
           onClick={() => { setShowForm(!showForm); setError(''); }}
-          className="flex items-center gap-2 px-5 py-3 bg-[#FF85A1] hover:bg-[#ff6e8e] text-white rounded-xl text-xs font-black uppercase tracking-wider transition-all"
+          className="flex items-center gap-2 px-5 py-3 bg-dermacol-pink hover:bg-[#ff6e8e] text-white rounded-xl text-xs font-black uppercase tracking-wider transition-all"
         >
           {showForm ? <X size={14} /> : <Plus size={14} />}
           {showForm ? 'Cancel' : 'Add Product'}
@@ -154,7 +154,7 @@ export default function AdminProductsPage() {
         <div className="bg-[#1a1a1a] rounded-2xl p-7 border border-white/5 mb-8">
           <h2 className="text-white font-black text-base mb-6">New Product</h2>
           <form onSubmit={handleSubmit}>
-            <div className="grid grid-cols-2 gap-4 mb-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
               {/* Name */}
               <div className="col-span-2">
                 <label className="text-gray-500 text-[10px] font-black uppercase tracking-wider mb-2 block">Product Name *</label>
@@ -163,7 +163,7 @@ export default function AdminProductsPage() {
                   placeholder="e.g. Full Frontal Bounce"
                   value={form.name}
                   onChange={e => setForm({ ...form, name: e.target.value })}
-                  className="w-full bg-[#252525] text-white text-sm px-4 py-3 rounded-xl border border-white/5 focus:outline-none focus:border-[#FF85A1] placeholder:text-gray-700 transition-colors"
+                  className="w-full bg-[#252525] text-white text-sm px-4 py-3 rounded-xl border border-white/5 focus:outline-none focus:border-dermacol-pink placeholder:text-gray-700 transition-colors"
                 />
               </div>
 
@@ -175,7 +175,7 @@ export default function AdminProductsPage() {
                   placeholder="e.g. Human hair blend"
                   value={form.type}
                   onChange={e => setForm({ ...form, type: e.target.value })}
-                  className="w-full bg-[#252525] text-white text-sm px-4 py-3 rounded-xl border border-white/5 focus:outline-none focus:border-[#FF85A1] placeholder:text-gray-700 transition-colors"
+                  className="w-full bg-[#252525] text-white text-sm px-4 py-3 rounded-xl border border-white/5 focus:outline-none focus:border-dermacol-pink placeholder:text-gray-700 transition-colors"
                 />
               </div>
 
@@ -187,7 +187,7 @@ export default function AdminProductsPage() {
                   placeholder="e.g. 18 inches"
                   value={form.inches}
                   onChange={e => setForm({ ...form, inches: e.target.value })}
-                  className="w-full bg-[#252525] text-white text-sm px-4 py-3 rounded-xl border border-white/5 focus:outline-none focus:border-[#FF85A1] placeholder:text-gray-700 transition-colors"
+                  className="w-full bg-[#252525] text-white text-sm px-4 py-3 rounded-xl border border-white/5 focus:outline-none focus:border-dermacol-pink placeholder:text-gray-700 transition-colors"
                 />
               </div>
 
@@ -199,7 +199,7 @@ export default function AdminProductsPage() {
                   placeholder="e.g. 60k"
                   value={form.old_price}
                   onChange={e => setForm({ ...form, old_price: e.target.value })}
-                  className="w-full bg-[#252525] text-white text-sm px-4 py-3 rounded-xl border border-white/5 focus:outline-none focus:border-[#FF85A1] placeholder:text-gray-700 transition-colors"
+                  className="w-full bg-[#252525] text-white text-sm px-4 py-3 rounded-xl border border-white/5 focus:outline-none focus:border-dermacol-pink placeholder:text-gray-700 transition-colors"
                 />
               </div>
 
@@ -211,7 +211,7 @@ export default function AdminProductsPage() {
                   placeholder="e.g. 45000"
                   value={form.new_price}
                   onChange={e => setForm({ ...form, new_price: e.target.value })}
-                  className="w-full bg-[#252525] text-white text-sm px-4 py-3 rounded-xl border border-white/5 focus:outline-none focus:border-[#FF85A1] placeholder:text-gray-700 transition-colors"
+                  className="w-full bg-[#252525] text-white text-sm px-4 py-3 rounded-xl border border-white/5 focus:outline-none focus:border-dermacol-pink placeholder:text-gray-700 transition-colors"
                 />
               </div>
 
@@ -226,7 +226,7 @@ export default function AdminProductsPage() {
                       onClick={() => setForm({ ...form, category: cat })}
                       className={`px-5 py-2 rounded-xl text-xs font-black uppercase tracking-wider transition-all ${
                         form.category === cat
-                          ? 'bg-[#FF85A1] text-white'
+                          ? 'bg-dermacol-pink text-white'
                           : 'bg-white/5 text-gray-500 hover:text-white'
                       }`}
                     >
@@ -248,7 +248,7 @@ export default function AdminProductsPage() {
                 />
                 <div
                   onClick={() => fileInputRef.current?.click()}
-                  className="border-2 border-dashed border-white/10 hover:border-[#FF85A1] rounded-2xl p-8 cursor-pointer transition-colors flex flex-col items-center justify-center gap-3 group"
+                  className="border-2 border-dashed border-white/10 hover:border-dermacol-pink rounded-2xl p-8 cursor-pointer transition-colors flex flex-col items-center justify-center gap-3 group"
                 >
                   {imagePreview ? (
                     <div className="relative w-32 h-32 rounded-xl overflow-hidden">
@@ -256,8 +256,8 @@ export default function AdminProductsPage() {
                     </div>
                   ) : (
                     <>
-                      <div className="p-4 bg-white/5 rounded-xl group-hover:bg-[#FF85A1]/10 transition-colors">
-                        <Upload size={24} className="text-gray-600 group-hover:text-[#FF85A1] transition-colors" />
+                      <div className="p-4 bg-white/5 rounded-xl group-hover:bg-dermacol-pink/10 transition-colors">
+                        <Upload size={24} className="text-gray-600 group-hover:text-dermacol-pink transition-colors" />
                       </div>
                       <p className="text-gray-600 text-xs font-bold">Click to upload image or video</p>
                     </>
@@ -274,7 +274,7 @@ export default function AdminProductsPage() {
             <button
               type="submit"
               disabled={saving}
-              className="w-full py-4 bg-[#FF85A1] hover:bg-[#ff6e8e] text-white font-black uppercase text-xs rounded-xl flex items-center justify-center gap-2 transition-all disabled:opacity-50"
+              className="w-full py-4 bg-dermacol-pink hover:bg-[#ff6e8e] text-white font-black uppercase text-xs rounded-xl flex items-center justify-center gap-2 transition-all disabled:opacity-50"
             >
               {saving ? (
                 <><Loader2 size={16} className="animate-spin" /> Uploading & Saving...</>
@@ -289,7 +289,7 @@ export default function AdminProductsPage() {
       {/* Products Table */}
       {loading ? (
         <div className="flex items-center justify-center py-20">
-          <Loader2 size={32} className="animate-spin text-[#FF85A1]" />
+          <Loader2 size={32} className="animate-spin text-dermacol-pink" />
         </div>
       ) : products.length === 0 ? (
         <div className="text-center py-20">
