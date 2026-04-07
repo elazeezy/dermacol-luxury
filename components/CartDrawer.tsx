@@ -1,13 +1,20 @@
 "use client";
 import React, { useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Trash2, MessageCircle, Copy, Check, Printer, ShoppingBag } from 'lucide-react';
+import { X, Trash2, MessageCircle, Copy, Check, Printer, ShoppingBag, Loader2 } from 'lucide-react';
 import { useCart } from '@/context/CartContext';
+import { supabase } from '@/lib/supabase';
 
 export default function CartDrawer({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
   const { cart, removeFromCart, total } = useCart();
   const [copied, setCopied] = useState(false);
   const receiptRef = useRef<HTMLDivElement>(null);
+
+  // Customer info for order tracking
+  const [customerName, setCustomerName] = useState('');
+  const [customerWhatsapp, setCustomerWhatsapp] = useState('');
+  const [isSaving, setIsSaving] = useState(false);
+  const [savedRef, setSavedRef] = useState('');
 
   // 1. PAYMENT CONFIGURATION
   const paymentData = {
@@ -26,7 +33,6 @@ export default function CartDrawer({ isOpen, onClose }: { isOpen: boolean; onClo
   };
 
   // 2. SWITCHING LOGIC
-  // If ANY item in the cart is tagged as 'kitchen', use Kitchen details
   const isKitchen = cart.some((item: any) => item.category === 'kitchen');
   const activeDetails = isKitchen ? paymentData.kitchen : paymentData.beauty;
 
@@ -40,22 +46,58 @@ export default function CartDrawer({ isOpen, onClose }: { isOpen: boolean; onClo
     window.print();
   };
 
-  // Build the WhatsApp Message dynamically
-  const whatsappLink = `https://wa.me/${activeDetails.whatsapp}?text=Hello%20Dermacol,%20I've%20paid%20for:%20${cart.map((i: any) => i.name).join(", ")}.%20Total:%20₦${total.toLocaleString()}.`;
+  // Generate a real order reference
+  const generateOrderRef = () => {
+    const date = new Date();
+    const datePart = date.toISOString().slice(0, 10).replace(/-/g, '');
+    const randomPart = Math.floor(1000 + Math.random() * 9000);
+    return `DC-${datePart}-${randomPart}`;
+  };
+
+  // Save order to Supabase then open WhatsApp
+  const handleConfirmOrder = async () => {
+    if (cart.length === 0) return;
+    if (!customerName.trim() || !customerWhatsapp.trim()) return;
+
+    setIsSaving(true);
+    const ref = generateOrderRef();
+
+    const whatsappMessage = `Hello Dermacol, I've paid for: ${cart.map((i: any) => i.name).join(', ')}. Total: ₦${total.toLocaleString()}. Order Ref: ${ref}`;
+    const whatsappUrl = `https://wa.me/${activeDetails.whatsapp}?text=${encodeURIComponent(whatsappMessage)}`;
+
+    await supabase.from('orders').insert({
+      order_ref: ref,
+      customer_name: customerName.trim(),
+      customer_whatsapp: customerWhatsapp.trim(),
+      items: cart.map((i: any) => ({ id: i.id, name: i.name, price: i.price })),
+      total_amount: total,
+      status: 'pending',
+      category: isKitchen ? 'kitchen' : 'beauty',
+    });
+
+    setSavedRef(ref);
+    setIsSaving(false);
+    window.open(whatsappUrl, '_blank');
+  };
+
+  const canConfirm = customerName.trim().length > 0 && customerWhatsapp.trim().length > 0 && cart.length > 0;
+
+  // Display ref: use saved real ref if available, else a preview placeholder
+  const displayRef = savedRef || `DC-${new Date().toISOString().slice(0,10).replace(/-/g,'')}`;
 
   return (
     <AnimatePresence>
       {isOpen && (
         <>
           {/* Backdrop blur */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
             onClick={onClose}
             className="fixed inset-0 bg-black/40 z-[200] backdrop-blur-md"
           />
-          
+
           {/* Drawer Wrapper */}
-          <motion.div 
+          <motion.div
             initial={{ x: '100%' }} animate={{ x: 0 }} exit={{ x: '100%' }}
             transition={{ type: 'spring', damping: 30, stiffness: 300 }}
             className="fixed right-0 top-0 h-full w-full md:w-[450px] bg-[#E0F2FE] z-[201] shadow-2xl flex flex-col overflow-y-auto no-scrollbar"
@@ -75,7 +117,7 @@ export default function CartDrawer({ isOpen, onClose }: { isOpen: boolean; onClo
             <div className="px-6 pb-10" id="printable-receipt" ref={receiptRef}>
               <div className="bg-white rounded-[3rem] shadow-xl overflow-hidden relative border border-white">
                 <div className="h-3 bg-[#FF85A1] w-full mb-8"></div>
-                
+
                 <div className="px-8 pb-10">
                   {/* Brand Header */}
                   <div className="text-center mb-8">
@@ -85,7 +127,7 @@ export default function CartDrawer({ isOpen, onClose }: { isOpen: boolean; onClo
                     </p>
                     <div className="mt-4 py-2 border-y border-dashed border-gray-100">
                        <p className="text-[9px] text-gray-400 italic font-medium">
-                         {new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })} • ID: #{Math.floor(1000 + Math.random() * 9000)}
+                         {new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })} • Ref: {displayRef}
                        </p>
                     </div>
                   </div>
@@ -119,7 +161,7 @@ export default function CartDrawer({ isOpen, onClose }: { isOpen: boolean; onClo
                   </div>
 
                   {/* Dynamic Payment Details Box */}
-                  <div className="bg-gray-50 rounded-[2rem] p-6 border border-gray-100 mb-8">
+                  <div className="bg-gray-50 rounded-[2rem] p-6 border border-gray-100 mb-6">
                     <div className="mb-6 text-center">
                       <h4 className="text-[10px] font-black uppercase text-[#FF85A1] mb-2 tracking-widest">How to Pay</h4>
                       <ul className="text-[9px] font-bold text-gray-500 uppercase space-y-1 italic">
@@ -135,7 +177,7 @@ export default function CartDrawer({ isOpen, onClose }: { isOpen: boolean; onClo
                         <p className="text-xl font-mono font-bold text-[#1A1A1A] tracking-tighter">{activeDetails.account}</p>
                         <p className="text-[9px] text-gray-400 font-bold uppercase mt-1">{activeDetails.name}</p>
                       </div>
-                      
+
                       <div className="relative z-10 flex flex-col items-center gap-1">
                         {copied ? (
                           <div className="flex flex-col items-center animate-in zoom-in duration-300">
@@ -151,13 +193,41 @@ export default function CartDrawer({ isOpen, onClose }: { isOpen: boolean; onClo
                     </div>
                   </div>
 
+                  {/* Customer Info Fields */}
+                  <div className="space-y-3 mb-6">
+                    <p className="text-[10px] font-black uppercase text-gray-400 tracking-widest text-center">Your Details</p>
+                    <input
+                      type="text"
+                      placeholder="Your Name"
+                      value={customerName}
+                      onChange={(e) => setCustomerName(e.target.value)}
+                      className="w-full px-5 py-4 rounded-2xl border border-gray-200 text-sm font-bold text-[#1A1A1A] placeholder:text-gray-300 focus:outline-none focus:border-dermacol-pink transition-colors bg-gray-50"
+                    />
+                    <input
+                      type="tel"
+                      placeholder="Your WhatsApp Number (e.g. 08012345678)"
+                      value={customerWhatsapp}
+                      onChange={(e) => setCustomerWhatsapp(e.target.value)}
+                      className="w-full px-5 py-4 rounded-2xl border border-gray-200 text-sm font-bold text-[#1A1A1A] placeholder:text-gray-300 focus:outline-none focus:border-dermacol-pink transition-colors bg-gray-50"
+                    />
+                  </div>
+
                   {/* Call to Action Button */}
-                  <a 
-                    href={whatsappLink}
-                    className="w-full py-5 bg-[#1A1A1A] text-white rounded-[1.5rem] font-black uppercase text-xs flex items-center justify-center gap-3 shadow-lg active:scale-95 transition-transform"
+                  <button
+                    onClick={handleConfirmOrder}
+                    disabled={!canConfirm || isSaving}
+                    className="w-full py-5 bg-[#1A1A1A] text-white rounded-[1.5rem] font-black uppercase text-xs flex items-center justify-center gap-3 shadow-lg active:scale-95 transition-all disabled:opacity-40 disabled:cursor-not-allowed disabled:active:scale-100"
                   >
-                    Confirm Order on WhatsApp <MessageCircle size={18} className="text-[#FF85A1]" />
-                  </a>
+                    {isSaving ? (
+                      <>
+                        <Loader2 size={18} className="animate-spin" /> Saving Order...
+                      </>
+                    ) : (
+                      <>
+                        Confirm Order on WhatsApp <MessageCircle size={18} className="text-dermacol-pink" />
+                      </>
+                    )}
+                  </button>
 
                   {/* Footer Message */}
                   <div className="mt-8 text-center">
