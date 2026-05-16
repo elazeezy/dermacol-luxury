@@ -17,34 +17,11 @@ type Order = {
 
 type Period = 'daily' | 'weekly' | 'monthly' | 'yearly';
 
-// ── helpers ────────────────────────────────────────────────────────────────
-
 function getLast7Days() {
   return Array.from({ length: 7 }, (_, i) => {
     const d = new Date();
     d.setDate(d.getDate() - (6 - i));
     return d.toISOString().slice(0, 10);
-  });
-}
-
-function getLast8Weeks() {
-  return Array.from({ length: 8 }, (_, i) => {
-    const d = new Date();
-    d.setDate(d.getDate() - (7 - i) * 7);
-    const week = `W${getWeekNumber(d)} '${d.getFullYear().toString().slice(2)}`;
-    return { label: week, start: getWeekStart(d), end: getWeekEnd(d) };
-  });
-}
-
-function getLast12Months() {
-  return Array.from({ length: 12 }, (_, i) => {
-    const d = new Date();
-    d.setMonth(d.getMonth() - (11 - i));
-    return {
-      label: d.toLocaleDateString('en-GB', { month: 'short', year: '2-digit' }),
-      year: d.getFullYear(),
-      month: d.getMonth(),
-    };
   });
 }
 
@@ -67,26 +44,48 @@ function getWeekEnd(d: Date) {
   return e.toISOString().slice(0, 10);
 }
 
+function getLast8Weeks() {
+  return Array.from({ length: 8 }, (_, i) => {
+    const d = new Date();
+    d.setDate(d.getDate() - (7 - i) * 7);
+    return {
+      label: `W${getWeekNumber(d)} '${d.getFullYear().toString().slice(2)}`,
+      start: getWeekStart(d),
+      end: getWeekEnd(d),
+    };
+  });
+}
+
+function getLast12Months() {
+  return Array.from({ length: 12 }, (_, i) => {
+    const d = new Date();
+    d.setMonth(d.getMonth() - (11 - i));
+    return {
+      label: d.toLocaleDateString('en-GB', { month: 'short', year: '2-digit' }),
+      year: d.getFullYear(),
+      month: d.getMonth(),
+    };
+  });
+}
+
 function fmt(amount: number) {
   if (amount >= 1_000_000) return `₦${(amount / 1_000_000).toFixed(1)}M`;
   if (amount >= 1_000) return `₦${(amount / 1_000).toFixed(0)}k`;
   return `₦${amount}`;
 }
 
-// ── custom tooltip ──────────────────────────────────────────────────────────
-
 function CustomTooltip({ active, payload, label }: any) {
   if (!active || !payload?.length) return null;
   return (
-    <div className="bg-[#252525] border border-white/10 rounded-xl px-4 py-3 shadow-2xl">
-      <p className="text-gray-400 text-[10px] font-bold uppercase mb-1">{label}</p>
+    <div className="bg-[#1a1a1a] border border-white/10 rounded-xl px-4 py-3 shadow-2xl">
+      <p className="text-gray-500 text-[10px] font-black uppercase tracking-wider mb-1">{label}</p>
       <p className="text-white font-black text-base">₦{payload[0].value.toLocaleString()}</p>
-      <p className="text-gray-600 text-[10px] mt-0.5">{payload[0].payload.count} order{payload[0].payload.count !== 1 ? 's' : ''}</p>
+      <p className="text-gray-600 text-[10px] mt-0.5">
+        {payload[0].payload.count} order{payload[0].payload.count !== 1 ? 's' : ''}
+      </p>
     </div>
   );
 }
-
-// ── main component ──────────────────────────────────────────────────────────
 
 export default function AdminRevenuePage() {
   const [orders, setOrders] = useState<Order[]>([]);
@@ -105,11 +104,8 @@ export default function AdminRevenuePage() {
       });
   }, []);
 
-  // ── chart data builders ────────────────────────────────────────────────
-
-  const buildDaily = () => {
-    const days = getLast7Days();
-    return days.map(day => {
+  const buildDaily = () =>
+    getLast7Days().map(day => {
       const dayOrders = orders.filter(o => o.confirmed_at?.slice(0, 10) === day);
       return {
         label: new Date(day).toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric' }),
@@ -117,82 +113,44 @@ export default function AdminRevenuePage() {
         count: dayOrders.length,
       };
     });
-  };
 
-  const buildWeekly = () => {
-    return getLast8Weeks().map(({ label, start, end }) => {
+  const buildWeekly = () =>
+    getLast8Weeks().map(({ label, start, end }) => {
       const weekOrders = orders.filter(o => {
         const d = o.confirmed_at?.slice(0, 10) || '';
         return d >= start && d <= end;
       });
-      return {
-        label,
-        revenue: weekOrders.reduce((s, o) => s + o.total_amount, 0),
-        count: weekOrders.length,
-      };
+      return { label, revenue: weekOrders.reduce((s, o) => s + o.total_amount, 0), count: weekOrders.length };
     });
-  };
 
-  const buildMonthly = () => {
-    return getLast12Months().map(({ label, year, month }) => {
+  const buildMonthly = () =>
+    getLast12Months().map(({ label, year, month }) => {
       const monthOrders = orders.filter(o => {
         const d = new Date(o.confirmed_at);
         return d.getFullYear() === year && d.getMonth() === month;
       });
-      return {
-        label,
-        revenue: monthOrders.reduce((s, o) => s + o.total_amount, 0),
-        count: monthOrders.length,
-      };
+      return { label, revenue: monthOrders.reduce((s, o) => s + o.total_amount, 0), count: monthOrders.length };
     });
-  };
 
   const buildYearly = () => {
     const years = [...new Set(orders.map(o => new Date(o.confirmed_at).getFullYear()))].sort();
     if (years.length === 0) years.push(new Date().getFullYear());
     return years.map(year => {
       const yearOrders = orders.filter(o => new Date(o.confirmed_at).getFullYear() === year);
-      return {
-        label: String(year),
-        revenue: yearOrders.reduce((s, o) => s + o.total_amount, 0),
-        count: yearOrders.length,
-      };
+      return { label: String(year), revenue: yearOrders.reduce((s, o) => s + o.total_amount, 0), count: yearOrders.length };
     });
   };
 
-  const chartData = {
-    daily: buildDaily(),
-    weekly: buildWeekly(),
-    monthly: buildMonthly(),
-    yearly: buildYearly(),
-  }[period];
-
-
-  // ── summary stats ─────────────────────────────────────────────────────
+  const chartData = { daily: buildDaily(), weekly: buildWeekly(), monthly: buildMonthly(), yearly: buildYearly() }[period];
 
   const now = new Date();
-
-  const todayTotal = orders
-    .filter(o => o.confirmed_at?.slice(0, 10) === now.toISOString().slice(0, 10))
-    .reduce((s, o) => s + o.total_amount, 0);
-
   const thisWeekStart = getWeekStart(now);
   const thisWeekEnd = getWeekEnd(now);
-  const weekTotal = orders
-    .filter(o => { const d = o.confirmed_at?.slice(0, 10) || ''; return d >= thisWeekStart && d <= thisWeekEnd; })
-    .reduce((s, o) => s + o.total_amount, 0);
 
-  const monthTotal = orders
-    .filter(o => {
-      const d = new Date(o.confirmed_at);
-      return d.getFullYear() === now.getFullYear() && d.getMonth() === now.getMonth();
-    })
-    .reduce((s, o) => s + o.total_amount, 0);
-
-  const yearTotal = orders
-    .filter(o => new Date(o.confirmed_at).getFullYear() === now.getFullYear())
-    .reduce((s, o) => s + o.total_amount, 0);
-
+  const todayTotal = orders.filter(o => o.confirmed_at?.slice(0, 10) === now.toISOString().slice(0, 10)).reduce((s, o) => s + o.total_amount, 0);
+  const weekTotal = orders.filter(o => { const d = o.confirmed_at?.slice(0, 10) || ''; return d >= thisWeekStart && d <= thisWeekEnd; }).reduce((s, o) => s + o.total_amount, 0);
+  const monthTotal = orders.filter(o => { const d = new Date(o.confirmed_at); return d.getFullYear() === now.getFullYear() && d.getMonth() === now.getMonth(); }).reduce((s, o) => s + o.total_amount, 0);
+  const yearTotal = orders.filter(o => new Date(o.confirmed_at).getFullYear() === now.getFullYear()).reduce((s, o) => s + o.total_amount, 0);
   const allTimeTotal = orders.reduce((s, o) => s + o.total_amount, 0);
   const allTimeOrders = orders.length;
 
@@ -203,132 +161,113 @@ export default function AdminRevenuePage() {
     yearly: 'All Years',
   };
 
+  const periodButtons: { key: Period; short: string }[] = [
+    { key: 'daily', short: '7D' },
+    { key: 'weekly', short: '8W' },
+    { key: 'monthly', short: '12M' },
+    { key: 'yearly', short: 'All' },
+  ];
+
   if (loading) {
     return (
       <div className="flex items-center justify-center h-full py-40">
-        <Loader2 size={32} className="animate-spin text-dermacol-pink" />
+        <Loader2 size={28} className="animate-spin text-dermacol-pink" />
       </div>
     );
   }
 
   return (
-    <div className="p-4 md:p-8 max-w-6xl mx-auto pb-24 md:pb-8">
+    <div className="p-4 md:p-8 max-w-5xl mx-auto pb-28 md:pb-10">
 
       {/* Header */}
-      <div className="mb-8">
-        <h1 className="text-2xl font-black text-white">Revenue</h1>
-        <p className="text-gray-500 text-sm mt-1">From confirmed orders only</p>
-      </div>
-
-      {/* Summary Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
-        <div className="bg-[#1a1a1a] rounded-2xl p-5 border border-white/5">
-          <div className="flex items-center gap-2 mb-3">
-            <Calendar size={14} className="text-dermacol-pink" />
-            <span className="text-gray-500 text-[10px] font-black uppercase tracking-wider">Today</span>
-          </div>
-          <p className="text-3xl font-black text-white">₦{todayTotal.toLocaleString()}</p>
-        </div>
-
-        <div className="bg-[#1a1a1a] rounded-2xl p-5 border border-white/5">
-          <div className="flex items-center gap-2 mb-3">
-            <Calendar size={14} className="text-blue-400" />
-            <span className="text-gray-500 text-[10px] font-black uppercase tracking-wider">This Week</span>
-          </div>
-          <p className="text-3xl font-black text-white">₦{weekTotal.toLocaleString()}</p>
-        </div>
-
-        <div className="bg-[#1a1a1a] rounded-2xl p-5 border border-white/5">
-          <div className="flex items-center gap-2 mb-3">
-            <TrendingUp size={14} className="text-green-400" />
-            <span className="text-gray-500 text-[10px] font-black uppercase tracking-wider">This Month</span>
-          </div>
-          <p className="text-3xl font-black text-white">₦{monthTotal.toLocaleString()}</p>
-        </div>
-
-        <div className="bg-[#1a1a1a] rounded-2xl p-5 border border-white/5">
-          <div className="flex items-center gap-2 mb-3">
-            <TrendingUp size={14} className="text-yellow-400" />
-            <span className="text-gray-500 text-[10px] font-black uppercase tracking-wider">This Year</span>
-          </div>
-          <p className="text-3xl font-black text-white">₦{yearTotal.toLocaleString()}</p>
-        </div>
+      <div className="mb-6">
+        <h1 className="text-xl md:text-2xl font-black text-white">Revenue</h1>
+        <p className="text-gray-600 text-xs mt-0.5">Confirmed orders only</p>
       </div>
 
       {/* All-time banner */}
-      <div className="bg-dermacol-pink/10 border border-dermacol-pink/20 rounded-2xl p-5 mb-8 flex items-center justify-between">
+      <div className="bg-linear-to-r from-dermacol-pink/15 to-dermacol-pink/5 border border-dermacol-pink/20 rounded-2xl p-5 mb-5 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <div className="p-2 bg-dermacol-pink/20 rounded-xl">
-            <Award size={20} className="text-dermacol-pink" />
+          <div className="p-2.5 bg-dermacol-pink/20 rounded-xl">
+            <Award size={18} className="text-dermacol-pink" />
           </div>
           <div>
-            <p className="text-gray-400 text-[10px] font-black uppercase tracking-wider">All-Time Revenue</p>
+            <p className="text-gray-500 text-[9px] font-black uppercase tracking-widest">All-Time Revenue</p>
             <p className="text-white font-black text-2xl mt-0.5">₦{allTimeTotal.toLocaleString()}</p>
           </div>
         </div>
         <div className="text-right">
-          <p className="text-gray-600 text-[10px] font-black uppercase tracking-wider">Total Orders</p>
-          <p className="text-white font-black text-2xl mt-0.5 flex items-center gap-2">
-            <ShoppingBag size={18} className="text-dermacol-pink" />
-            {allTimeOrders}
-          </p>
+          <p className="text-gray-600 text-[9px] font-black uppercase tracking-widest">Orders</p>
+          <p className="text-white font-black text-2xl mt-0.5">{allTimeOrders}</p>
         </div>
       </div>
 
+      {/* Summary Cards — 2x2 grid */}
+      <div className="grid grid-cols-2 gap-3 mb-6">
+        {[
+          { label: 'Today', value: todayTotal, color: 'text-dermacol-pink', icon: <Calendar size={13} className="text-dermacol-pink" /> },
+          { label: 'This Week', value: weekTotal, color: 'text-blue-400', icon: <Calendar size={13} className="text-blue-400" /> },
+          { label: 'This Month', value: monthTotal, color: 'text-green-400', icon: <TrendingUp size={13} className="text-green-400" /> },
+          { label: 'This Year', value: yearTotal, color: 'text-yellow-400', icon: <TrendingUp size={13} className="text-yellow-400" /> },
+        ].map(({ label, value, icon }) => (
+          <div key={label} className="bg-[#1a1a1a] rounded-2xl p-4 border border-white/5">
+            <div className="flex items-center gap-1.5 mb-2">
+              {icon}
+              <span className="text-gray-500 text-[9px] font-black uppercase tracking-wider">{label}</span>
+            </div>
+            <p className="text-white font-black text-xl md:text-2xl">{fmt(value)}</p>
+          </div>
+        ))}
+      </div>
+
       {/* Bar Chart */}
-      <div className="bg-[#1a1a1a] rounded-2xl p-6 border border-white/5">
-        {/* Period Tabs */}
-        <div className="flex items-center justify-between mb-6">
+      <div className="bg-[#1a1a1a] rounded-2xl p-5 border border-white/5">
+        {/* Period selector */}
+        <div className="flex items-center justify-between mb-5">
           <div>
             <p className="text-white font-black text-sm">Revenue Chart</p>
-            <p className="text-gray-600 text-xs mt-0.5">{periodLabels[period]}</p>
+            <p className="text-gray-600 text-[10px] mt-0.5">{periodLabels[period]}</p>
           </div>
-          <div className="flex gap-2">
-            {(['daily', 'weekly', 'monthly', 'yearly'] as Period[]).map(p => (
+          <div className="flex gap-1.5">
+            {periodButtons.map(({ key, short }) => (
               <button
-                key={p}
-                onClick={() => setPeriod(p)}
+                key={key}
+                onClick={() => setPeriod(key)}
                 className={`px-3 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-wider transition-all ${
-                  period === p
+                  period === key
                     ? 'bg-dermacol-pink text-white'
-                    : 'bg-white/5 text-gray-500 hover:text-white'
+                    : 'bg-white/5 text-gray-500 hover:text-white hover:bg-white/10'
                 }`}
               >
-                {p === 'daily' ? '7D' : p === 'weekly' ? '8W' : p === 'monthly' ? '12M' : 'All'}
+                {short}
               </button>
             ))}
           </div>
         </div>
 
-        {/* Chart */}
-        <ResponsiveContainer width="100%" height={280}>
+        <ResponsiveContainer width="100%" height={240}>
           <BarChart data={chartData} barCategoryGap="30%">
-            <CartesianGrid strokeDasharray="3 3" stroke="#ffffff08" vertical={false} />
+            <CartesianGrid strokeDasharray="3 3" stroke="#ffffff06" vertical={false} />
             <XAxis
               dataKey="label"
-              tick={{ fill: '#6b7280', fontSize: 10, fontWeight: 700 }}
+              tick={{ fill: '#6b7280', fontSize: 9, fontWeight: 700 }}
               axisLine={false}
               tickLine={false}
             />
             <YAxis
               tickFormatter={fmt}
-              tick={{ fill: '#6b7280', fontSize: 10, fontWeight: 700 }}
+              tick={{ fill: '#6b7280', fontSize: 9, fontWeight: 700 }}
               axisLine={false}
               tickLine={false}
-              width={55}
+              width={48}
             />
             <Tooltip content={<CustomTooltip />} cursor={{ fill: 'rgba(255,255,255,0.03)' }} />
-            <Bar
-              dataKey="revenue"
-              radius={[6, 6, 0, 0]}
-              fill="#2a2a2a"
-            />
+            <Bar dataKey="revenue" radius={[5, 5, 0, 0]} fill="#FF85A1" opacity={0.85} />
           </BarChart>
         </ResponsiveContainer>
 
-        {/* No data state */}
         {chartData.every(d => d.revenue === 0) && (
-          <p className="text-center text-gray-700 text-sm font-bold mt-4">
+          <p className="text-center text-gray-700 text-xs font-bold mt-3">
             No confirmed orders in this period yet
           </p>
         )}
