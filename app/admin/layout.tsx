@@ -2,12 +2,13 @@
 import { useRouter, usePathname } from 'next/navigation';
 import { useState } from 'react';
 import { supabase } from '@/lib/supabase';
-import { LayoutDashboard, ShoppingBag, Package, LogOut, Menu, X } from 'lucide-react';
+import { LayoutDashboard, ShoppingBag, Package, LogOut, Menu, X, Megaphone } from 'lucide-react';
 import Link from 'next/link';
 
 const navItems = [
   { href: '/admin', label: 'Orders', icon: ShoppingBag },
   { href: '/admin/products', label: 'Products', icon: Package },
+  { href: '/admin/ads', label: 'Ads', icon: Megaphone },
   { href: '/admin/revenue', label: 'Revenue', icon: LayoutDashboard },
 ];
 
