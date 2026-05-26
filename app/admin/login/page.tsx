@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { supabase } from '@/lib/supabase';
-import { Loader2, Lock, Mail } from 'lucide-react';
+import { Loader2, Lock, Mail, Eye, EyeOff } from 'lucide-react';
 
 export default function AdminLoginPage() {
   const router = useRouter();
@@ -10,6 +10,8 @@ export default function AdminLoginPage() {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [showEmail, setShowEmail] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -47,26 +49,40 @@ export default function AdminLoginPage() {
             <div className="relative">
               <Mail size={15} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500" />
               <input
-                type="email"
+                type={showEmail ? "text" : "email"}
                 placeholder="Email address"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="w-full bg-[#252525] text-white text-sm pl-11 pr-4 py-4 rounded-xl border border-white/5 focus:outline-none focus:border-[#FF85A1] placeholder:text-gray-600 transition-colors"
+                className="w-full bg-[#252525] text-white text-sm pl-11 pr-11 py-4 rounded-xl border border-white/5 focus:outline-none focus:border-[#FF85A1] placeholder:text-gray-600 transition-colors"
               />
+              <button
+                type="button"
+                onClick={() => setShowEmail(!showEmail)}
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-300 transition-colors"
+              >
+                {showEmail ? <EyeOff size={15} /> : <Eye size={15} />}
+              </button>
             </div>
 
             {/* Password */}
             <div className="relative">
               <Lock size={15} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500" />
               <input
-                type="password"
+                type={showPassword ? "text" : "password"}
                 placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
-                className="w-full bg-[#252525] text-white text-sm pl-11 pr-4 py-4 rounded-xl border border-white/5 focus:outline-none focus:border-[#FF85A1] placeholder:text-gray-600 transition-colors"
+                className="w-full bg-[#252525] text-white text-sm pl-11 pr-11 py-4 rounded-xl border border-white/5 focus:outline-none focus:border-[#FF85A1] placeholder:text-gray-600 transition-colors"
               />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-300 transition-colors"
+              >
+                {showPassword ? <EyeOff size={15} /> : <Eye size={15} />}
+              </button>
             </div>
 
             {/* Error */}
